@@ -14,6 +14,7 @@ import android.os.Looper
 import android.os.Message
 import android.text.TextUtils
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -55,6 +56,7 @@ class ImagePreviewActivity : AppCompatActivity(), Handler.Callback, View.OnClick
     private lateinit var imageInfoList: MutableList<ImageInfo>
     private lateinit var viewPager: HackyViewPager
     private lateinit var tvIndicator: TextView
+    private lateinit var nameText: TextView
     private lateinit var fmImageShowOriginContainer: FrameLayout
     private lateinit var fmCenterProgressContainer: FrameLayout
     private lateinit var btnShowOrigin: Button
@@ -118,6 +120,7 @@ class ImagePreviewActivity : AppCompatActivity(), Handler.Callback, View.OnClick
         }
         rootView = findViewById(R.id.rootView)
         viewPager = findViewById(R.id.viewPager)
+        nameText = findViewById(R.id.photo_name)
         tvIndicator = findViewById(R.id.tv_indicator)
         fmImageShowOriginContainer = findViewById(R.id.fm_image_show_origin_container)
         fmCenterProgressContainer = findViewById(R.id.fm_center_progress_container)
@@ -162,6 +165,7 @@ class ImagePreviewActivity : AppCompatActivity(), Handler.Callback, View.OnClick
         // 设置顶部指示器背景shape
         if (ImagePreview.instance.indicatorShapeResId > 0) {
             tvIndicator.setBackgroundResource(ImagePreview.instance.indicatorShapeResId)
+            nameText.setBackgroundResource(ImagePreview.instance.indicatorShapeResId)
         }
         downloadButtonStatus = if (isShowDownButton) {
             imgDownload.visibility = View.VISIBLE
@@ -184,6 +188,7 @@ class ImagePreviewActivity : AppCompatActivity(), Handler.Callback, View.OnClick
             (currentItem + 1).toString(),
             (imageInfoList.size).toString()
         )
+        nameText.text = imageInfoList[currentItem].name
         imagePreviewAdapter = ImagePreviewAdapter(this, imageInfoList)
         viewPager.adapter = imagePreviewAdapter
         viewPager.currentItem = currentItem
@@ -207,6 +212,7 @@ class ImagePreviewActivity : AppCompatActivity(), Handler.Callback, View.OnClick
                     (currentItem + 1).toString(),
                     (imageInfoList.size).toString()
                 )
+                nameText.text = imageInfoList[currentItem].name
                 // 如果是自定义百分比进度view，每次切换都先隐藏，并重置百分比
                 if (isUserCustomProgressView) {
                     fmCenterProgressContainer.visibility = View.GONE
@@ -498,9 +504,7 @@ class ImagePreviewActivity : AppCompatActivity(), Handler.Callback, View.OnClick
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            val option = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            val vis = window.decorView.systemUiVisibility
-            window.decorView.systemUiVisibility = option or vis
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             window.statusBarColor = Color.TRANSPARENT
         } else {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -563,5 +567,13 @@ class ImagePreviewActivity : AppCompatActivity(), Handler.Callback, View.OnClick
                 }
             }
         }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_DPAD_RIGHT -> viewPager.setCurrentItem(viewPager.currentItem + 1, true)
+            KeyEvent.KEYCODE_DPAD_LEFT -> viewPager.setCurrentItem(viewPager.currentItem - 1, true)
+        }
+        return super.onKeyDown(keyCode, event)
     }
 }

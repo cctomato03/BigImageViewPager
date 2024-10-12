@@ -27,6 +27,7 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import cc.shinichi.bigimageviewpager.glide.GlideEngine;
@@ -181,52 +182,28 @@ public class MainActivity extends AppCompatActivity {
         final List<ImageInfo> imageInfoList = new ArrayList<>();
         ImageInfo i;
 
+        HashMap<String, String> header = new HashMap<>();
+        header.put("authorization", "Basic Y2N0b21hdG86Y2N0b21hdG8=");
+
         // 普通图片1：
         i = new ImageInfo();
-        i.setThumbnailUrl("http://image.coolapk.com/picture/2023/0331/15/804026_4012f28c_8643_0867_309@1440x2560.jpeg.m.jpg");
-        i.setOriginUrl("http://image.coolapk.com/picture/2023/0331/15/804026_4012f28c_8643_0867_309@1440x2560.jpeg");
+        i.setThumbnailUrl("http://10.48.1.201:8080/jav/Julia/2010-05-13-EBOD-113.jpg");
+        i.setOriginUrl("http://10.48.1.201:8080/jav/Julia/2010-05-13-EBOD-113.jpg");
+        i.setHeader(header);
         imageInfoList.add(i);
 
         // 普通图片2：
         i = new ImageInfo();
-        i.setThumbnailUrl("http://image.coolapk.com/picture/2023/0406/08/736620_39842c8b_0392_4907_446@2160x3840.jpeg.m.jpg");
-        i.setOriginUrl("http://image.coolapk.com/picture/2023/0406/08/736620_39842c8b_0392_4907_446@2160x3840.jpeg");
+        i.setThumbnailUrl("http://10.48.1.201:8080/jav/Rion/2024-03-20-NACR-783.jpg");
+        i.setOriginUrl("http://10.48.1.201:8080/jav/Rion/2024-03-20-NACR-783.jpg");
+        i.setHeader(header);
         imageInfoList.add(i);
 
         // 大尺寸图片：
         i = new ImageInfo();
-        i.setThumbnailUrl("https://yitaoyitao.oss-cn-qingdao.aliyuncs.com/app/img/temp/test/A3ZD8.md.jpg");
-        i.setOriginUrl("https://yitaoyitao.oss-cn-qingdao.aliyuncs.com/app/img/temp/test/A3ZD8.jpg");
-        imageInfoList.add(i);
-
-        // 长截图1：
-        i = new ImageInfo();
-        i.setThumbnailUrl("https://yitaoyitao.oss-cn-qingdao.aliyuncs.com/app/img/temp/test/llong1thubm.jpg");
-        i.setOriginUrl("https://yitaoyitao.oss-cn-qingdao.aliyuncs.com/app/img/temp/test/llong1.jpg");
-        imageInfoList.add(i);
-
-        // 全景图片1：
-        i = new ImageInfo();
-        i.setThumbnailUrl("https://yitaoyitao.oss-cn-qingdao.aliyuncs.com/app/img/temp/test/heng1thumb.jpg");
-        i.setOriginUrl("https://yitaoyitao.oss-cn-qingdao.aliyuncs.com/app/img/temp/test/heng1.jpg");
-        imageInfoList.add(i);
-
-        // 全景图片2：
-        i = new ImageInfo();
-        i.setThumbnailUrl("https://yitaoyitao.oss-cn-qingdao.aliyuncs.com/app/img/temp/test/heng2thumb.jpg");
-        i.setOriginUrl("https://yitaoyitao.oss-cn-qingdao.aliyuncs.com/app/img/temp/test/heng2.jpg");
-        imageInfoList.add(i);
-
-        // 动图：
-        i = new ImageInfo();
-        i.setThumbnailUrl("https://yitaoyitao.oss-cn-qingdao.aliyuncs.com/app/img/temp/test/gif1thumb.png");
-        i.setOriginUrl("https://yitaoyitao.oss-cn-qingdao.aliyuncs.com/app/img/temp/test/gif1.gif");
-        imageInfoList.add(i);
-
-        // 测试：
-        i = new ImageInfo();
-        i.setThumbnailUrl("https://switch-cdn.vgjump.com/Android_1681181317625_d2959134-f14b-4b7b-9f41-5c08fb72c4cb?imageView2/2/w/1080/h/0/format/webp/q/75|imageslim");
-        i.setOriginUrl("https://switch-cdn.vgjump.com/Android_1681181317625_d2959134-f14b-4b7b-9f41-5c08fb72c4cb");
+        i.setThumbnailUrl("http://10.48.1.201:8080/jav/Rion/2023-07-18-MEYD-826.jpg");
+        i.setOriginUrl("http://10.48.1.201:8080/jav/Rion/2023-07-18-MEYD-826.jpg");
+        i.setHeader(header);
         imageInfoList.add(i);
 
         // ==============================================================================================================

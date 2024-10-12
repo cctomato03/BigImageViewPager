@@ -11,8 +11,7 @@
 	<cc.shinichi.library.view.HackyViewPager
 		android:id="@+id/viewPager"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		/>
+		android:layout_height="match_parent" />
 
 	<FrameLayout
 		android:id="@+id/fm_center_progress_container"
@@ -22,6 +21,21 @@
 		>
 
 	</FrameLayout>
+
+	<TextView
+		android:id="@+id/photo_name"
+		android:layout_width="wrap_content"
+		android:layout_height="20dp"
+		android:layout_alignParentTop="true"
+		android:layout_centerHorizontal="true"
+		android:layout_marginTop="20dp"
+		android:background="@drawable/shape_indicator_bg"
+		android:gravity="center"
+		android:includeFontPadding="false"
+		android:text="TitleName"
+		android:textColor="#ffffff"
+		android:textSize="15sp"
+		/>
 
 	<TextView
 		android:id="@+id/tv_indicator"
@@ -35,8 +49,7 @@
 		android:includeFontPadding="false"
 		android:text="1/9"
 		android:textColor="#ffffff"
-		android:textSize="15sp"
-		/>
+		android:textSize="15sp" />
 
 	<ImageView
 		android:id="@+id/imgCloseButton"

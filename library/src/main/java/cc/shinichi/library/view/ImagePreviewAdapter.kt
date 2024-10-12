@@ -52,6 +52,8 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
@@ -224,7 +226,15 @@ class ImagePreviewAdapter(private val activity: AppCompatActivity, imageList: Mu
             }
         } else {
             Log.d("instantiateItem", "原图缓存不存在，开始加载 url = $url")
-            Glide.with(activity).downloadOnly().load(url).addListener(object : RequestListener<File> {
+            val builder = LazyHeaders.Builder()
+            if (info.header.isNotEmpty()) {
+                for ((key, value) in info.header) {
+                    builder.addHeader(key, value)
+                }
+            }
+            val glideUrl = GlideUrl(url, builder.build())
+
+            Glide.with(activity).downloadOnly().load(glideUrl).addListener(object : RequestListener<File> {
                 override fun onLoadFailed(
                     e: GlideException?, model: Any, target: Target<File>,
                     isFirstResource: Boolean

@@ -17,4 +17,14 @@ class ImageInfo : Serializable {
      * 原图
      */
     var originUrl: String = ""
+
+    /**
+     * header
+     */
+    var header: MutableMap<String, String> = HashMap<String, String>()
+
+    /**
+     *
+     */
+    var name: String = ""
 }
