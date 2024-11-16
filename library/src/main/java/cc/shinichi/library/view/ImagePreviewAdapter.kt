@@ -226,44 +226,78 @@ class ImagePreviewAdapter(private val activity: AppCompatActivity, imageList: Mu
             }
         } else {
             Log.d("instantiateItem", "原图缓存不存在，开始加载 url = $url")
-            val builder = LazyHeaders.Builder()
+
             if (info.header.isNotEmpty()) {
+                val builder = LazyHeaders.Builder()
                 for ((key, value) in info.header) {
                     builder.addHeader(key, value)
                 }
-            }
-            val glideUrl = GlideUrl(url, builder.build())
+                val glideUrl = GlideUrl(url, builder.build())
 
-            Glide.with(activity).downloadOnly().load(glideUrl).addListener(object : RequestListener<File> {
-                override fun onLoadFailed(
-                    e: GlideException?, model: Any, target: Target<File>,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    Thread {
-                        val fileFullName = System.currentTimeMillis().toString()
-                        val saveDir = getAvailableCacheDir(activity)?.absolutePath + File.separator + "image/"
-                        val downloadFile = downloadFile(url, fileFullName, saveDir)
-                        Handler(Looper.getMainLooper()).post {
-                            if (downloadFile != null && downloadFile.exists() && downloadFile.length() > 0) {
-                                // 通过urlConn下载完成
-                                loadSuccess(originPathUrl, downloadFile, imageStatic, imageAnim, progressBar)
-                            } else {
-                                loadFailed(imageStatic, imageAnim, progressBar, e)
+                Glide.with(activity).downloadOnly().load(glideUrl).addListener(object : RequestListener<File> {
+                    override fun onLoadFailed(
+                        e: GlideException?, model: Any, target: Target<File>,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Thread {
+                            val fileFullName = System.currentTimeMillis().toString()
+                            val saveDir = getAvailableCacheDir(activity)?.absolutePath + File.separator + "image/"
+                            val downloadFile = downloadFile(url, fileFullName, saveDir)
+                            Handler(Looper.getMainLooper()).post {
+                                if (downloadFile != null && downloadFile.exists() && downloadFile.length() > 0) {
+                                    // 通过urlConn下载完成
+                                    loadSuccess(originPathUrl, downloadFile, imageStatic, imageAnim, progressBar)
+                                } else {
+                                    loadFailed(imageStatic, imageAnim, progressBar, e)
+                                }
                             }
-                        }
-                    }.start()
-                    return true
-                }
+                        }.start()
+                        return true
+                    }
 
-                override fun onResourceReady(
-                    resource: File, model: Any, target: Target<File>, dataSource: DataSource,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    loadSuccess(url, resource, imageStatic, imageAnim, progressBar)
-                    return true
-                }
-            }).into(object : FileTarget() {
-            })
+                    override fun onResourceReady(
+                        resource: File, model: Any, target: Target<File>, dataSource: DataSource,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        loadSuccess(url, resource, imageStatic, imageAnim, progressBar)
+                        return true
+                    }
+                }).into(object : FileTarget() {
+                })
+            } else {
+                Glide.with(activity).downloadOnly().load(url).addListener(object : RequestListener<File> {
+                    override fun onLoadFailed(
+                        e: GlideException?, model: Any, target: Target<File>,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Thread {
+                            val fileFullName = System.currentTimeMillis().toString()
+                            val saveDir = getAvailableCacheDir(activity)?.absolutePath + File.separator + "image/"
+                            val downloadFile = downloadFile(url, fileFullName, saveDir)
+                            Handler(Looper.getMainLooper()).post {
+                                if (downloadFile != null && downloadFile.exists() && downloadFile.length() > 0) {
+                                    // 通过urlConn下载完成
+                                    loadSuccess(originPathUrl, downloadFile, imageStatic, imageAnim, progressBar)
+                                } else {
+                                    loadFailed(imageStatic, imageAnim, progressBar, e)
+                                }
+                            }
+                        }.start()
+                        return true
+                    }
+
+                    override fun onResourceReady(
+                        resource: File, model: Any, target: Target<File>, dataSource: DataSource,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        loadSuccess(url, resource, imageStatic, imageAnim, progressBar)
+                        return true
+                    }
+                }).into(object : FileTarget() {
+                })
+            }
+
+
         }
         container.addView(convertView)
         return convertView
